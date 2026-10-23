@@ -1,190 +1,221 @@
-# Redmargin
+# Redmargin Career Agent
 
-**An evidence-first GitHub repository reviewer that turns skill gaps into actionable improvement plans.**
+### The Career Lab, Not the Hype Lab.
 
-Freshers often can't tell which of their projects matches a job, or what is missing from it. Redmargin takes a public GitHub repo and a target role, compares the repo with what job postings ask for, shows where repository evidence was **not found**, and gives a ranked fix plan with a day-by-day timetable sized to the hours you can spend.
+**No fake praise. No mystery scores. Just receipts and next steps.**
 
-> Missing repository evidence is not proof that a candidate lacks a skill. Redmargin reports what it can detect and marks the rest "not assessed".
+Redmargin is a voice-enabled career-prep agent for developers. Give it a GitHub repo and a target role, and it tells you what the repo actually proves, where the evidence is thin, and what to fix before you apply.
 
-**Live demo:** https://redmargin.onrender.com
+> Built for the **Amazon Developer Hackathon**.
 
-## Design rule
+| | |
+|---|---|
+| **Live demo** | https://redmargin-alexaplus.onrender.com/career |
+| **Source** | https://github.com/KomalDeep355/Redmargin-AlexaPlus |
+| **Health check** | https://redmargin-alexaplus.onrender.com/api/health |
+| **API docs** | https://redmargin-alexaplus.onrender.com/docs |
 
-Numbers are deterministic (signals, percentages, hours). The LLM only writes the explanation, and every claim must cite evidence that can be checked. Unsupported claims are dropped and counted, which gives a measurable "how often did the model invent things" number.
+> The free-tier server sleeps when idle. If the first load is slow (up to ~50 seconds), open `/api/health` first to wake it.
 
-## Features
+---
 
-- **Repo review:** fetches a bounded set of files through the GitHub API, with no cloning and no code execution.
-- **Skill-evidence matrix:** compares the share of job postings that mention a skill with the evidence found in the repo.
-- **Ranked fix plan and timetable:** gaps and hygiene issues become fixes with editable hour estimates.
-- **How May I Help Desk:** builds a plan around the hours you can give a project, using curated learning resources (`app/agent.py`, `data/agent_resources.json`).
-- **Interview questions:** grounded in the repository's actual files.
-- **Resume bullets:** checked against repository evidence.
-- **Hackathon estimate:** a weighted score, with a deterministic fallback when no model is configured.
-- **Skill predictor:** `app/skill_predictor.py` loads the trained baseline model (`models/skill_extractor.joblib`) to predict skills from job-description text.
-- **Mock mode:** works with no API key, using a rule-based critique.
+## The Problem
 
-## How it works
+Early-career developers get two kinds of feedback: vague ("improve your projects") or flattering. Neither tells them whether a repo demonstrates what a Data Scientist, NLP, SWE, or FDE employer expects. Repo review, resume feedback, and interview practice also live in separate tools.
 
+## The Solution
+
+One agent, four workflows, grounded in evidence:
+
+| Workflow | What you get |
+|---|---|
+| **Repository review** | Repo URL + target role: what the repo demonstrates, what's missing, what to be ready to defend in an interview |
+| **Career guidance** | Prioritized next steps for a target role |
+| **Resume verdict** | Guidance on how well your profile communicates fit for a role |
+| **Interview prep** | Practice explaining your projects and role-relevant questions |
+
+Available by **typing or speaking**, and the repo review is also exposed as an **MCP tool** so other AI clients can call it.
+
+**Principles:** evidence over hype, actionable next steps, accessible interaction.
+
+## Supported Roles
+
+SWE, Data Scientist, NLP, Forward Deployed Engineer (FDE)
+
+---
+
+## Architecture
+
+```text
+ User (text / voice)
+        |
+        v
+ Web frontend  (static/career.html + career.js, browser Speech APIs)
+        |
+        v
+ FastAPI app  (app/main.py)
+   |-- /api/agent/review    repository review
+   |-- /api/help            career guidance
+   |-- /api/resume-verdict  resume verdict
+   |-- /api/interview       interview prep
+        |
+        v
+ LLM provider (mock mode by default)
+
+ MCP client --> MCP server (app/mcp_server.py) --> same review logic
 ```
- Public repo URL + target role + hours available
-                    |
- 1. FETCH          GitHub API, bounded file set
- 2. SIGNALS        tests, CI, deploy files, README quality, hygiene issues
- 3. SKILL MATRIX   skills.json taxonomy + repo markers vs. job postings
- 4. PLANNER        ranked fixes -> timetable sized to your hours
- 5. LLM (optional) writes the explanation
- 6. VALIDATOR      unsupported claims are dropped and counted
-                    |
-        Ranked fix plan + day-by-day timetable
-```
 
-Role priorities are human-configured. They are not learned from any dataset.
+| Layer | Tech |
+|---|---|
+| Backend | Python, FastAPI, Uvicorn |
+| Frontend | HTML, CSS, vanilla JavaScript |
+| Voice | Browser SpeechRecognition + SpeechSynthesis |
+| Agent tooling | Model Context Protocol (`review_repository`, `get_supported_roles`) |
+| AI | Pluggable LLM integration; mock/demo mode |
+| Quality | Pytest, GitHub Actions CI |
+| Hosting | Render |
 
-Supported roles (`data/roles.json`): Data Scientist, NLP/ML Engineer, Software Engineer, Forward Deployed Engineer.
+## Status: What's Built vs. Planned
 
-## Quick start
+**Working**
+- Career Agent web UI at `/career`
+- Repo review, guidance, resume verdict, and interview endpoints
+- Browser voice input and spoken output (browser-dependent)
+- MCP server with two tools
+- Pytest suite and CI workflow
+- Public deployment on Render
 
-### Windows (PowerShell)
+**Important: the deployed demo runs in mock/demo mode.** Reviews are demo-quality, not live LLM output. Connecting a real LLM provider is a configuration step (see `.env.example`).
 
-```powershell
-git clone https://github.com/KomalDeep355/Redmargin.git
-cd Redmargin
-py -m venv .venv
-.venv\Scripts\Activate.ps1        # if blocked: Set-ExecutionPolicy -Scope Process Bypass
-pip install -r requirements.txt
-copy .env.example .env            # then edit .env
-uvicorn app.main:app --reload
-```
+**Not built yet**
+- Native Alexa skill (voice today is browser-based only)
+- Amazon Bedrock as the model provider
+- Private-repo access
+- Multi-turn interview sessions with follow-ups
 
-### macOS / Linux
+---
+
+## Quick Start
 
 ```bash
-git clone https://github.com/KomalDeep355/Redmargin.git
-cd Redmargin
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env              # then edit .env
-uvicorn app.main:app --reload
+git clone https://github.com/KomalDeep355/Redmargin-AlexaPlus.git
+cd Redmargin-AlexaPlus
+
+python -m venv .venv
+source .venv/bin/activate          # Windows: .\.venv\Scripts\Activate.ps1
+
+python -m pip install -r requirements.txt
+cp .env.example .env               # Windows: Copy-Item .env.example .env
 ```
 
-Open <http://127.0.0.1:8000>. Run the tests with `python -m pytest`.
+Fill in only what you need in `.env` (an LLM key and GitHub token are optional; see `.env.example` for exact variable names). Never commit `.env`.
 
-## Configuration
+```bash
+python -m uvicorn app.main:app --reload --port 8000
+```
 
-| Setting | Purpose |
+| URL | What |
 |---|---|
-| `LLM_PROVIDER` | `mock` (default, no key) or `openai_compat` |
-| Base URL, model, API key | for any OpenAI-compatible endpoint, such as local Ollama or Groq (see `.env.example`) |
-| `GITHUB_TOKEN` | raises GitHub's anonymous limit of about 60 calls/hour |
-| `MAX_PASTED_POSTINGS_CHARS` | limits pasted job-description text |
-| `MAX_REPO_URL_CHARS` | limits the repo URL input |
+| http://127.0.0.1:8000/career | Career Agent |
+| http://127.0.0.1:8000/ | Redirects to Career Agent |
+| http://127.0.0.1:8000/api/health | Health check |
+| http://127.0.0.1:8000/docs | Interactive API docs |
 
-Invalid numeric settings are logged and fall back to defaults. Limits on repository tree size, fetched-file count, GitHub concurrency and prompt text have upper bounds even if the environment sets them too high. Repository URLs must be HTTPS links to `github.com/owner/repository`.
+**MCP server** (separate terminal, same venv):
 
-## Deploy on Render
+```bash
+python -m app.mcp_server           # http://127.0.0.1:8001/mcp
+```
 
-The root `render.yaml` defines a Python web service (`app.main:app`) with a `/api/health` check. Create a Blueprint from this repository and set secrets such as `GITHUB_TOKEN` in the Render dashboard, never in the repo. The service defaults to `LLM_PROVIDER=mock`.
+## Try It in 60 Seconds
 
-## Data and the offline ML experiment
+1. Open `/career`.
+2. Paste a public GitHub repo URL and pick a target role.
+3. Run the review, or click the mic and speak your request (Chrome recommended; allow microphone access).
+4. See `/docs` for exact request/response schemas.
 
-The live review pipeline is separate from the dataset and model-training workflow in `dataset/` (see `dataset/README.md`).
+---
 
-**Dataset preparation.** Source CSV files of job postings were joined on `job_link`, deduplicated, cleaned, normalized and classified into target roles.
+## API
 
-- Initial join: 12,217 postings (12,212 with source-provided skill labels).
-- After filtering and deduplication: 1,223 postings: Data Scientist 729, NLP/ML Engineer 270, Software Engineer 188, Forward Deployed Engineer 36.
-- Split by company, not by row, to reduce leakage: 841 train, 183 validation, 199 test.
-- Labels come from the source data and are noisy, not verified ground truth.
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/` | GET | Redirects to `/career` |
+| `/career` | GET | Career Agent UI |
+| `/api/health` | GET | Health and config check |
+| `/api/agent/review` | POST | Repository review |
+| `/api/help` | POST | Career guidance |
+| `/api/resume-verdict` | POST | Resume verdict |
+| `/api/interview` | POST | Interview prep |
+| `/docs` | GET | Swagger UI |
 
-**Baseline model.** A multi-label skill extractor using TF-IDF and Logistic Regression, limited to the 50 most frequent training labels, with a global threshold of 0.20 chosen on the validation split.
+## MCP Tools
 
-| Metric | Result |
-|---|---:|
-| Validation micro-F1 | 0.5305 |
-| Test micro-F1 | 0.5483 |
-| Test macro-F1 | 0.3335 |
-
-Full numbers are in `dataset/processed/baseline_report.json`.
-
-**Limits.**
-- The test data contained 3,670 skill-label occurrences outside the training vocabulary.
-- The metrics cover only the 50-label vocabulary. They are not overall skill-extraction performance and not repository-review accuracy.
-- The original dataset's source, collection date and redistribution licence still need confirmation, so the raw CSVs are **not** included in this repository.
-
-**Pipeline scripts (`dataset/`).**
-
-| Script | Purpose |
+| Tool | Purpose |
 |---|---|
-| `organize_job_data.py` | organizes the raw job-data CSVs |
-| `build_postings.py` | builds the cleaned postings file |
-| `check_processed.py`, `check_splits.py` | sanity checks on processed data and splits |
-| `baseline_skill_extractor.py` | trains and evaluates the baseline model |
-| `compare_skill_taxonomy.py` | maps dataset skills to the `skills.json` taxonomy |
-| `label_silver.py`, `make_gold_sheet.py`, `eval_gold.py` | silver labeling and a hand-labelled gold benchmark workflow |
-| `collect_repos.py` | collects repositories for evaluation |
+| `review_repository` | Review a repo URL against a target role |
+| `get_supported_roles` | List supported role categories |
 
-## Important before you trust any output
+The MCP server is a separate process from the web app. A client must be configured to connect to it, and `127.0.0.1` is only reachable locally.
 
-- `data/postings/*/sample-*.txt` are **synthetic test data**. The UI warns you while they are in use. They are excluded from market percentages.
-- Replace them with 10-15 real postings per role, or paste postings into the form, separated by a line containing `---`.
-- Skill findings describe detectable evidence in the inspected repository only. Skills such as customer communication that can't be inferred from source are marked "not assessed".
-- Fix hours in `data/fix_library.json` are rough defaults, not predictions.
-- Only public repositories are supported.
-- Market-based conclusions are withheld when there isn't enough real-posting evidence.
+## Voice
 
-## Project structure
+Uses the browser's speech recognition and speech synthesis. Support varies by browser, OS, and microphone permissions, so text input always works as a fallback. This is **not** a native Alexa skill.
 
-```
-app/
-  main.py              FastAPI routes and health checks
-  config.py            settings from .env
-  schemas.py           bounded API request and response models
-  github_client.py     fetch repo tree + key files (no clone)
-  signals.py           deterministic checks: tests, CI, Docker, README, committed .env ...
-  skills.py            skill matrix: postings vs. repo evidence
-  skill_predictor.py   skill prediction from job text (TF-IDF + Logistic Regression)
-  postings.py          loads stored/pasted postings, flags sample data
-  planner.py           gaps + hygiene -> ranked fixes -> timetable
-  agent.py             Help Desk: plan personalized to available hours
-  llm.py               OpenAI-compatible client + mock mode
-  prompts.py           all prompt text
-  reviewer.py          pipeline + evidence validation + rule-based fallback
-  interview.py         repository-grounded interview questions
-  resume_verdict.py    deterministic verdict + evidence-checked bullets
-  judge.py             weighted hackathon estimate
-data/
-  skills.json          skill taxonomy
-  fix_library.json     fixes with hour ranges and steps
-  agent_resources.json learning resources used by the Help Desk
-  roles.json           target roles
-  postings/<role>/     sample job postings (data_scientist, fde, nlp, swe)
-dataset/               offline data pipeline and model training
-  processed/           cleaned postings and reports
-models/
-  skill_extractor.joblib   trained baseline skill extractor
-static/                index.html, style.css, app.js
-tests/                 test_core, test_agent, test_config, test_dataset,
-                       test_reliability, test_review_pipeline, test_skill_predictor
-render.yaml            Render blueprint
+---
+
+## Testing
+
+```bash
+python -m pytest -q
 ```
 
-## How to extend
+## Deployment (Render)
 
-- **New skill:** add an entry to `data/skills.json` (synonyms to find it in postings, plus dependency, path, keyword or signal markers to find it in repos).
-- **New repo check:** add one `_add(...)` line in `signals.py`, and a row in `HYGIENE` in `planner.py` if it should produce a fix.
-- **New fix:** add it to `data/fix_library.json` and point a skill's `fix_id` at it.
-- **New learning resource:** add it to `data/agent_resources.json`.
-- **New role:** add it to `data/roles.json` and create `data/postings/<id>/`.
+1. Push the repo to GitHub (no secrets, no `.env`).
+2. Render dashboard: **New > Web Service**, select this repo.
+3. Build: `pip install -r requirements.txt`
+4. Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+5. Add environment variables from `.env.example` in Render's settings.
+6. Verify `/`, `/career`, `/api/health`, `/docs` on the public URL.
+
+Free-tier services spin down when idle, so expect a slow first request.
+
+---
+
+## Security & Privacy
+
+- API keys stay server-side, never in frontend JS.
+- Inputs are validated; external-API failures don't leak diagnostics.
+- Public repos only; no private-repo auth is implemented.
+- Automated feedback is guidance, not a hiring decision.
+
+## Limitations
+
+- The deployed demo uses mock mode; real LLM output needs provider credentials and may cost money.
+- Without a GitHub token, GitHub API rate limits are low.
+- Reviews are limited to what the app can access and process.
+- Four roles don't cover every employer expectation.
+- Browser speech support is inconsistent.
+- No guarantee of interviews or offers.
 
 ## Roadmap
 
-1. Confirm the dataset's source and licence, and review the noisy labels.
-2. Collect 10-15 real postings per role.
-3. Finish the human-labelled gold benchmark and report how often Redmargin finds real gaps.
-4. Compare the offline skill model with the deterministic baseline before it influences any live decision.
-5. Add recruiter-facing evaluation, a possible future direction that is not built yet.
+- Real LLM-backed reviews (including Amazon Bedrock)
+- Native Alexa skill calling `/api/agent/review`
+- Feedback that cites specific files and commits
+- Deeper role-specific rubrics
+- Multi-turn interview practice with follow-ups
+- Broader MCP tool coverage and more failure-path tests
+
+## Contributing
+
+Fork, branch, change, run `python -m pytest -q`, check `git status` for stray files or secrets, then open a PR explaining the problem and fix.
 
 ## License
 
-Released under the [MIT License](LICENSE).
+See [LICENSE](LICENSE).
+
+---
+
+**Redmargin Career Agent: Build evidence. Understand your gaps. Improve your next step.**
