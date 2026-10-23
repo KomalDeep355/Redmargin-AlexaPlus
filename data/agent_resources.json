@@ -1,0 +1,75 @@
+
+[
+  {
+    "id": "hf_llm_course",
+    "title": "Hugging Face LLM Course",
+    "url": "https://huggingface.co/learn/llm-course/en/chapter1/1",
+    "type": "course",
+    "skills": ["llm_apis", "nlp", "ml_frameworks", "rag"],
+    "level": "beginner",
+    "description": "Learn Transformers, language models, tokenizers, datasets, and practical NLP."
+  },
+  {
+    "id": "hf_agents_course",
+    "title": "Hugging Face Agents Course",
+    "url": "https://huggingface.co/learn/agents-course/en/unit1/introduction",
+    "type": "course",
+    "skills": ["agents", "llm_apis", "apis_integrations"],
+    "level": "beginner",
+    "description": "Learn agent workflows, tools, planning, and how agents interact with their environment."
+  },
+  {
+    "id": "rag_from_scratch",
+    "title": "RAG from Scratch",
+    "url": "https://github.com/langchain-ai/rag-from-scratch",
+    "type": "github",
+    "skills": ["rag", "llm_apis", "ml_frameworks"],
+    "level": "intermediate",
+    "description": "Study an educational implementation of retrieval-augmented generation."
+  },
+  {
+    "id": "hf_transformers_docs",
+    "title": "Transformers Documentation",
+    "url": "https://huggingface.co/docs/transformers/index",
+    "type": "documentation",
+    "skills": ["nlp", "ml_frameworks", "llm_apis"],
+    "level": "intermediate",
+    "description": "Learn to load pretrained models and use Transformers for inference and NLP tasks."
+  },
+  {
+    "id": "fastapi_tutorial",
+    "title": "FastAPI Tutorial",
+    "url": "https://fastapi.tiangolo.com/tutorial/",
+    "type": "documentation",
+    "skills": ["rest_apis", "testing", "python"],
+    "level": "beginner",
+    "description": "Build and validate Python APIs with request models, response models, and tests."
+  },
+  {
+    "id": "sklearn_user_guide",
+    "title": "scikit-learn User Guide",
+    "url": "https://scikit-learn.org/stable/user_guide.html",
+    "type": "documentation",
+    "skills": ["ml_frameworks", "data_analysis", "statistics_experimentation", "evals"],
+    "level": "beginner",
+    "description": "Learn model training, preprocessing, evaluation, and classical machine learning."
+  },
+  {
+    "id": "pytest_docs",
+    "title": "pytest Documentation",
+    "url": "https://docs.pytest.org/en/stable/",
+    "type": "documentation",
+    "skills": ["testing", "ci_cd", "python"],
+    "level": "beginner",
+    "description": "Learn how to write automated tests for Python projects."
+  },
+  {
+    "id": "github_actions_docs",
+    "title": "GitHub Actions Documentation",
+    "url": "https://docs.github.com/en/actions",
+    "type": "documentation",
+    "skills": ["ci_cd", "testing", "cloud_deploy"],
+    "level": "beginner",
+    "description": "Automate testing and build workflows for repositories."
+  }
+]

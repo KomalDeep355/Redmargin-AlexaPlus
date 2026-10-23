@@ -1,0 +1,68 @@
+[
+  {
+    "id": "fde",
+    "label": "Forward Deployed Engineer",
+    "skill_weights": {
+      "python": 1.0,
+      "rest_apis": 1.0,
+      "cloud_deploy": 0.8,
+      "apis_integrations": 1.0,
+      "observability": 0.6,
+      "llm_apis": 0.8,
+      "rag": 0.6,
+      "agents": 0.7,
+      "security_auth": 0.5,
+      "testing": 0.5,
+      "customer_communication": 1.0
+    }
+  },
+  {
+    "id": "data_scientist",
+    "label": "Data Scientist",
+    "skill_weights": {
+      "python": 0.8,
+      "sql_databases": 0.9,
+      "statistics_experimentation": 1.0,
+      "ml_frameworks": 1.0,
+      "data_analysis": 1.0,
+      "data_viz": 0.7,
+      "data_pipelines": 0.6,
+      "evals": 0.9,
+      "ml_deployment": 0.5
+    }
+  },
+  {
+    "id": "swe",
+    "label": "Software Engineer",
+    "skill_weights": {
+      "python": 0.9,
+      "sql_databases": 0.6,
+      "rest_apis": 0.9,
+      "frontend": 0.6,
+      "docker": 0.5,
+      "ci_cd": 0.8,
+      "testing": 1.0,
+      "observability": 0.6,
+      "security_auth": 0.7,
+      "apis_integrations": 0.5,
+      "cloud_deploy": 0.5,
+      "documentation": 0.4
+    }
+  },
+  {
+    "id": "nlp",
+    "label": "NLP / ML Engineer",
+    "skill_weights": {
+      "python": 0.9,
+      "ml_frameworks": 1.0,
+      "nlp": 1.0,
+      "llm_apis": 0.8,
+      "rag": 0.8,
+      "evals": 0.8,
+      "ml_deployment": 0.7,
+      "data_analysis": 0.4,
+      "data_pipelines": 0.4,
+      "agents": 0.5
+    }
+  }
+]

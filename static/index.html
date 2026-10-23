@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f2e9">
+  <meta name="description" content="An evidence-first GitHub project review against real job requirements. Find the gaps. Build what matters.">
+  <title>Redmargin — Your repo, graded honestly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght,SOFT,WONK@9..144,400,20,1;9..144,500,20,1;9..144,600,20,1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Redmargin home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>redmargin<span class="brand-period">.</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="open-source"><span class="status-dot"></span> OPEN-SOURCE REVIEWER</span>
+        <a class="top-link" href="#how-it-works">How it works <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> THE CAREER LAB, NOT THE HYPE LAB</div>
+          <h1>Your repo.<br><span class="headline-mark">Marked honestly.</span></h1>
+          <p class="hero-deck">An evidence-first code review that checks your GitHub project against real job requirements — then gives you a practical plan to close the gaps.</p>
+          <div class="hero-note"><span class="scribble-star" aria-hidden="true">✳</span><span>No fake praise. No mystery scores. Just receipts and next steps.</span></div>
+        </div>
+        <aside class="hero-sticker" aria-label="Redmargin motto">
+          <span class="sticker-small">A NOTE FROM YOUR</span>
+          <strong>friendly<br>red pen</strong>
+          <span class="sticker-underline"></span>
+          <span class="sticker-foot">constructive, not cruel ↗</span>
+        </aside>
+        <div class="hero-doodle doodle-one" aria-hidden="true">✳</div>
+        <div class="hero-doodle doodle-two" aria-hidden="true">〰</div>
+      </section>
+
+      <section class="workspace" aria-labelledby="review-title">
+        <div class="section-kicker"><span>01 / THE SETUP</span><span>TAKES ABOUT 2 MINUTES</span></div>
+        <div class="paper-card form-card">
+          <div class="paper-margin" aria-hidden="true"><span>RM</span></div>
+          <div class="form-heading">
+            <div>
+              <div class="paper-label">REVIEW SHEET <span>NO. 001</span></div>
+              <h2 id="review-title">Hand in your project.</h2>
+              <p>We'll compare what your repo shows with what your target role asks for.</p>
+            </div>
+            <div class="grade-stamp" aria-hidden="true"><span>BE</span><span>SPECIFIC</span></div>
+          </div>
+
+          <form id="form" class="review-form">
+            <label class="field field-wide" for="repo">
+              <span class="field-title"><span class="field-number">A.</span> GitHub repository URL <span class="required">REQUIRED</span></span>
+              <span class="input-wrap"><span class="input-prefix" aria-hidden="true">↗</span><input id="repo" name="repo" type="url" placeholder="https://github.com/you/your-project" autocomplete="url" required></span>
+              <span class="field-help">Public repositories only for this first version. We inspect files; we don't run your code.</span>
+            </label>
+
+            <div class="field-grid">
+              <label class="field" for="role">
+                <span class="field-title"><span class="field-number">B.</span> The role you're aiming for</span>
+                <select id="role" name="role" required><option value="">Loading roles…</option></select>
+                <span class="field-help">Pick the job you want, not the job you already have.</span>
+              </label>
+              <label class="field" for="hours">
+                <span class="field-title"><span class="field-number">C.</span> Time you can give it</span>
+                <span class="input-with-unit"><input id="hours" name="hours" type="number" min="0.5" max="12" step="0.5" value="2"><span>hours / day</span></span>
+                <span class="field-help">We'll use this to pace the improvement plan.</span>
+              </label>
+            </div>
+
+            <details class="postings-details">
+              <summary><span><span class="field-number">D.</span> Bring your own job postings <span class="optional-pill">OPTIONAL</span></span><span class="details-plus" aria-hidden="true">＋</span></summary>
+              <div class="details-content">
+                <label class="field" for="postings">
+                  <span class="field-title">Paste real job descriptions</span>
+                  <textarea id="postings" name="postings" rows="5" placeholder="Paste a job posting here…&#10;Put a line containing --- between postings."></textarea>
+                  <span class="field-help">Use postings you can link back to. The review will disclose the sample size and any data limitations.</span>
+                </label>
+              </div>
+            </details>
+
+            <div class="form-bottom">
+              <div class="privacy-note"><span aria-hidden="true">◎</span><span>Evidence over vibes. Findings should point to files or checks.</span></div>
+              <button id="go" type="submit" class="submit-button"><span>Mark my repo</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+            </div>
+          </form>
+        </div>
+        <div id="status" class="status-line" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="results" class="results" hidden aria-labelledby="results-title">
+        <div class="section-kicker"><span>02 / THE MARKING</span><span>SPECIFIC FEEDBACK. NO CAREER PROPHECIES.</span></div>
+        <div id="warning" class="warning" hidden role="status"></div>
+        <div id="repoMeta" class="repo-meta"></div>
+
+        <section class="grade-layout" aria-labelledby="results-title">
+          <div class="paper-card grade-paper">
+            <div class="paper-margin" aria-hidden="true"><span>✓</span></div>
+            <div class="grade-paper-content">
+              <div class="paper-label">OVERALL REPOSITORY EVIDENCE</div>
+              <div class="score-row"><div class="score-number" id="scoreNumber">—<span>/10</span></div><div id="scoreSticker" class="score-sticker">LET'S SEE</div></div>
+              <h2 id="results-title">The honest verdict.</h2>
+              <p id="summary" class="summary"></p>
+              <p id="scoreExplanation" class="score-explanation">This is a transparent repo-evidence heuristic, not a hiring prediction or a measure of your personal ability.</p>
+              <p id="marketStatus" class="score-explanation" role="status"></p>
+              <div id="source" class="source-line"></div>
+            </div>
+            <div class="grade-scribble" aria-hidden="true">✎</div>
+          </div>
+          <aside class="rubric-card">
+            <div class="rubric-top"><span>THE RUBRIC</span><span>01—04</span></div>
+            <h3>How we mark it</h3>
+            <ul class="rubric-list">
+              <li><span class="rubric-score">10</span><span><b>Repository skill evidence</b><small>10-point score based on the share of detectable skills for this role with evidence in inspected repository files.</small></span></li>
+              <li><span class="rubric-score">—</span><span><b>Market comparison</b><small>Posting demand and role-specific gaps are shown separately and require enough real postings.</small></span></li>
+            </ul>
+            <div class="rubric-caveat">A missing signal means “not found in this review,” not “you don't know this skill.”</div>
+          </aside>
+        </section>
+
+        <section class="result-section" aria-labelledby="matrix-title">
+          <div class="result-heading"><div><div class="paper-label">THE ANSWER KEY</div><h2 id="matrix-title">What jobs ask for vs. what your repo shows.</h2></div><span class="margin-comment">show me the receipts ↓</span></div>
+          <div id="matrix" class="skill-table" role="table" aria-label="Skill evidence matrix"></div>
+          <div class="legend"><span><i class="legend-dot found"></i> Evidence found</span><span><i class="legend-dot missing"></i> Not found</span><span><i class="legend-dot unknown"></i> Needs human review</span></div>
+        </section>
+
+        <section class="result-section" aria-labelledby="findings-title">
+          <div class="result-heading"><div><div class="paper-label">RED PEN / GREEN FLAGS</div><h2 id="findings-title">The margin notes.</h2></div><span class="margin-comment">constructive criticism only</span></div>
+          <div class="findings-grid"><div><h3 class="subsection-title"><span class="mini-mark red">!</span> Needs work</h3><div id="findings"></div></div><div><h3 class="subsection-title"><span class="mini-mark green">✓</span> Give yourself credit</h3><div id="strengths"></div></div></div>
+        </section>
+
+        <section class="result-section" aria-labelledby="plan-title">
+          <div class="result-heading"><div><div class="paper-label">THE REVISION PLAN</div><h2 id="plan-title">Okay, what do I do now?</h2></div><span class="margin-comment">one task at a time ✳</span></div>
+          <p id="planNote" class="plan-note"></p>
+          <div id="plan" class="plan-list"></div>
+        </section>
+
+        <section class="result-section checks-section" aria-labelledby="checks-title">
+          <div class="result-heading"><div><div class="paper-label">THE BORING STUFF THAT MATTERS</div><h2 id="checks-title">Repository checks.</h2></div><span class="margin-comment">trust, but verify</span></div>
+          <ul id="signals" class="signals"></ul>
+        </section>
+        <div class="closing-note"><span class="closing-star" aria-hidden="true">✳</span><p><strong>Final teacher's note:</strong> This review grades the evidence visible in one repository against one sample of job postings. It does not grade your worth, potential, or employability.</p></div>
+      </section>
+
+      <section id="how-it-works" class="how-section">
+        <div class="section-kicker"><span>03 / THE PROMISE</span><span>HOW REDMARGIN WORKS</span></div>
+        <div class="how-grid">
+          <article class="how-card"><span class="how-number">01</span><span class="how-icon" aria-hidden="true">⌕</span><h3>Read the evidence</h3><p>Inspect repository files and checks. No running unknown code just to give you a grade.</p></article>
+          <article class="how-card"><span class="how-number">02</span><span class="how-icon" aria-hidden="true">▤</span><h3>Compare to real roles</h3><p>Use job-posting requirements as a benchmark, with sample size and limitations disclosed.</p></article>
+          <article class="how-card"><span class="how-number">03</span><span class="how-icon" aria-hidden="true">✎</span><h3>Make a better next build</h3><p>Turn the gaps into a ranked, time-aware plan with concrete steps you can actually finish.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>redmargin<span class="brand-period">.</span></span></a><p>Less hype. More evidence. Made for builders who want the real notes.</p><span class="footer-stamp">STAY CURIOUS / KEEP SHIPPING</span></footer>
+  </div>
+  <!-- Floating Help Button -->
+  <button
+    id="helpLauncher"
+    class="help-launcher"
+    type="button"
+    aria-label="Open Redmargin help chat"
+    aria-expanded="false"
+    aria-controls="helpPanel"
+  >
+    <span aria-hidden="true">✳</span>
+    <span class="help-dot" aria-hidden="true"></span>
+  </button>
+
+  <!-- Help Chat Panel -->
+  <section
+    id="helpPanel"
+    class="help-panel"
+    aria-label="Redmargin help chat"
+    hidden
+  >
+    <div class="help-head">
+      <div class="help-head-copy">
+        <div class="help-avatar" aria-hidden="true">✎</div>
+        <div>
+          <div class="help-eyebrow">REDMARGIN HELP DESK</div>
+          <h2>How may I help?</h2>
+          <p>Learn a skill. Improve your project. Build evidence for your target role.</p>
+        </div>
+      </div>
+      <button
+        id="helpClose"
+        class="help-close"
+        type="button"
+        aria-label="Close help chat"
+      >×</button>
+    </div>
+
+    <div id="agent-panel" class="agent-panel">
+      <label for="agent-goal">What do you want to achieve?</label>
+      <textarea
+        id="agent-goal"
+        rows="3"
+        maxlength="4000"
+        placeholder="Example: I want to learn LLMs and add an LLM feature to my NLP project."
+      ></textarea>
+
+      <label for="agent-hours">Hours available per day</label>
+      <input id="agent-hours" type="number" min="0.5" max="16" step="0.5" value="2">
+
+      <button id="agent-send" class="help-send agent-send" type="button">Build my roadmap</button>
+
+      <p id="agent-status" role="status" aria-live="polite"></p>
+      <div id="agent-results" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

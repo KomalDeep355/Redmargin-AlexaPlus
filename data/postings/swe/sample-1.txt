@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — Software Engineer
+Python or JavaScript, REST APIs, SQL databases, unit tests, CI/CD, Docker, Git, cloud deployment, logging and monitoring.

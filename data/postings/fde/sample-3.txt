@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — Applied AI Engineer
+Build full-stack AI applications: React frontend, Python backend, Postgres. Docker, deployment, logging. Vector databases and embeddings. Communicate with clients and stakeholders.

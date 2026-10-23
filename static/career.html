@@ -1,0 +1,280 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f2e9">
+<title>Redmargin Career Agent</title>
+<style>
+:root{--paper:#f7f2e9;--ink:#29241f;--red:#a53236;--green:#426b51;--line:#ded5c8;--muted:#746c62;--white:#fffdf8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 "DM Sans",Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.shell{max-width:1100px;margin:auto;padding:22px}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid var(--line);padding-bottom:18px}
+.brand{font-size:25px;font-weight:800;text-decoration:none;letter-spacing:-1.3px}
+.brand span{color:var(--red)}
+.pill{font-size:11px;letter-spacing:1px;font-weight:800;border:1px solid var(--line);border-radius:30px;padding:7px 11px}
+.hero{padding:48px 0 28px;max-width:760px}
+.eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:var(--red)}
+h1{font-family:Georgia,serif;font-size:clamp(40px,7vw,70px);line-height:1.04;letter-spacing:-2px;margin:13px 0}
+h1 em{color:var(--red);font-weight:400}
+.hero p{color:var(--muted);max-width:640px}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:20px;align-items:start}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:21px;min-width:0;box-shadow:0 8px 24px #3d281008}
+h2,h3{line-height:1.25}
+h2{font-size:21px;margin:0 0 8px}
+h3{font-size:16px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+label{display:block;font-weight:700;font-size:13px;margin:16px 0 6px}
+input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;padding:11px 12px;border-radius:9px;color:var(--ink)}
+textarea{resize:vertical;min-height:80px}
+button.primary{background:var(--red);color:white;border:0;border-radius:9px;padding:12px 15px;font-weight:800}
+button.secondary{background:var(--white);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-weight:700}
+button:disabled{opacity:.55;cursor:wait}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.actions button{flex:1}
+.quick{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.quick button{font-size:12px}
+.status{font-size:13px;color:var(--muted);margin-top:12px;overflow-wrap:anywhere}
+.status.error{color:var(--red)}
+.chat{display:flex;flex-direction:column;gap:12px}
+.message{padding:13px 15px;border-radius:13px;max-width:95%;overflow-wrap:anywhere}
+.message.bot{background:#f0e8dc;border:1px solid var(--line);align-self:flex-start}
+.message.user{background:#332c27;color:white;align-self:flex-end}
+.message small{display:block;font-size:10px;letter-spacing:1px;font-weight:800;margin-bottom:5px;opacity:.7}
+.message p{margin:5px 0}
+.message ul{padding-left:20px}
+.trace{font-family:Consolas,monospace;font-size:11px;color:var(--muted);padding-top:10px;border-top:1px dashed var(--line);overflow-wrap:anywhere}
+.composer{display:flex;gap:8px;margin-top:16px}
+.composer input{min-width:0}
+.composer button{flex-shrink:0}
+.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.metric{border:1px solid var(--line);border-radius:10px;padding:13px}
+.metric strong{font-family:Georgia,serif;font-size:28px;display:block}
+.metric span{font-size:11px;color:var(--muted)}
+.evidence-card{border:1px solid var(--line);border-radius:10px;padding:13px;margin:10px 0}
+.evidence-card p{margin:5px 0}
+.evidence-card a{color:var(--red);overflow-wrap:anywhere;font-size:13px}
+.good{border-left:4px solid var(--green)}
+.warn{border-left:4px solid var(--red)}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:3px 8px;font-size:11px;margin:3px}
+.footer{color:var(--muted);font-size:12px;padding:24px 0;text-align:center}
+.hidden{display:none!important}
+@media(max-width:760px){.shell{padding:15px}.layout{grid-template-columns:1fr}.hero{padding-top:32px}.result-grid{grid-template-columns:1fr 1fr}.panel{padding:16px}header{align-items:flex-start}}
+@media(prefers-reduced-motion:no-preference){.panel{animation:appear .35s ease-out}@keyframes appear{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}}
+.voice-card {
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+  padding: 22px;
+  border: 1px solid #dfd1c3;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 90% 10%, #f0d8d1 0, transparent 38%),
+    linear-gradient(145deg, #fffdf8, #f3e9dd);
+}
+
+.voice-copy {
+  max-width: 235px;
+}
+
+.voice-eyebrow {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.voice-copy h3 {
+  margin: 7px 0;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  letter-spacing: -0.7px;
+}
+
+.voice-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.voice-orb {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  margin: 22px auto 16px;
+  border: 1px solid #8c282c;
+  border-radius: 50%;
+  color: #fffaf4;
+  background: linear-gradient(145deg, #b84a4e, #87262b);
+  box-shadow: 0 8px 0 #e7d1c7, 0 14px 28px #84272b26;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.voice-orb:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 0 #e7d1c7, 0 18px 32px #84272b30;
+}
+
+.voice-orb:focus-visible,
+.speak-button:focus-visible {
+  outline: 3px solid #d6a6a1;
+  outline-offset: 4px;
+}
+
+.voice-orb-icon {
+  font-size: 38px;
+  line-height: 1;
+  transform: rotate(-90deg);
+}
+
+.voice-orb.is-listening {
+  animation: voice-pulse 1.25s ease-in-out infinite;
+  background: linear-gradient(145deg, #527a60, #315540);
+  border-color: #315540;
+}
+
+.voice-orb.is-thinking {
+  background: linear-gradient(145deg, #8d7460, #67503e);
+}
+
+.voice-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#voiceState {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.speak-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #d9c9bb;
+  border-radius: 11px;
+  color: var(--ink);
+  background: #fffdf8;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.speak-button:hover:not(:disabled) {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.speak-button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+@keyframes voice-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 #426b5130; }
+  50% { transform: scale(1.04); box-shadow: 0 0 0 12px #426b5100; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voice-orb,
+  .voice-orb.is-listening {
+    animation: none;
+    transition: none;
+  }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+<a class="brand" href="/">redmargin<span>.</span></a>
+<span class="pill">ALEXA+ STYLE · WEB SIMULATION</span>
+</header>
+<section class="hero">
+<div class="eyebrow">YOUR CAREER, WITH RECEIPTS</div>
+<h1>Ask better.<br><em>Build with evidence.</em></h1>
+<p>A conversational career agent built on Redmargin's existing repository review engine. Ask for a review, inspect evidence, prepare for interviews, and choose your next improvement.</p>
+</section>
+<div class="layout">
+<aside class="panel">
+<h2>Review setup</h2>
+<p class="muted">Use a public GitHub repository. Redmargin inspects repository files; it does not execute the code.</p>
+<form id="setup">
+<label for="repo">GitHub repository URL</label>
+<input id="repo" type="url" value="https://github.com/KomalDeep355/Redmargin" maxlength="300" required>
+<label for="role">Target role</label>
+<select id="role" required><option value="fde">Loading roles…</option></select>
+<label for="hours">Hours available per day</label>
+<input id="hours" type="number" min=".5" max="12" step=".5" value="2" required>
+<label for="postings">Optional real job postings</label>
+<textarea id="postings" placeholder="Paste real job descriptions. Separate multiple postings with a line containing ---"></textarea>
+<div class="actions"><button class="primary" type="submit" id="reviewBtn">Review repository</button></div>
+</form>
+<section class="voice-card" aria-label="Voice assistant controls">
+  <div class="voice-copy">
+    <span class="voice-eyebrow">REDMARGIN VOICE</span>
+    <h3>Talk it through.</h3>
+    <p>Ask a career question naturally. I'll listen, analyze, and answer.</p>
+  </div>
+
+  <button
+    class="voice-orb"
+    id="voiceBtn"
+    type="button"
+    aria-label="Start voice input"
+    aria-pressed="false"
+  >
+    <span class="voice-orb-icon" aria-hidden="true">⌁</span>
+  </button>
+
+  <div class="voice-bottom">
+    <span id="voiceState" role="status" aria-live="polite">
+      Ready when you are
+    </span>
+    <button class="speak-button" id="speakBtn" type="button" disabled>
+      <span aria-hidden="true">↗</span>
+      Read answer aloud
+    </button>
+  </div>
+</section>
+<p class="status" id="status" role="status" aria-live="polite">Loading role options…</p>
+<div class="trace" id="trace">Ready · No analysis has run yet.</div>
+</aside>
+<main class="panel">
+<h2>How may I help?</h2>
+<p class="muted">Ask a question or choose a suggested action. The agent calls the existing Redmargin API for real analysis.</p>
+<div class="quick">
+<button class="secondary" data-prompt="Review my repository and show me the evidence." type="button">Review my repo</button>
+<button class="secondary" data-prompt="Prepare evidence-based interview questions for this repository." type="button">Interview prep</button>
+<button class="secondary" data-prompt="Review my resume evidence and suggest defensible bullets." type="button">Resume evidence</button>
+<button class="secondary" data-prompt="Show me the most important fixes and explain the evidence." type="button">Prioritize fixes</button>
+</div>
+<div class="chat" id="chat" aria-live="polite">
+<div class="message bot"><small>REDMARGIN CAREER AGENT</small><p>Hi! I'll help you understand what your repository demonstrates, what evidence is missing, and what to improve next. Start by reviewing a repository or ask me a question.</p></div>
+</div>
+<form id="composer" class="composer">
+<input id="message" maxlength="1000" placeholder="Ask about your repo, evidence, or next steps…" aria-label="Your message" required>
+<button class="primary" id="sendBtn" type="submit">Ask ↗</button>
+</form>
+<div class="trace" id="activity" aria-live="polite">Activity trace: waiting for your request.</div>
+<div id="results" class="hidden"></div>
+</main>
+</div>
+<footer class="footer">Evidence over vibes. A missing signal is not proof that you lack a skill.</footer>
+</div>
+<script src="/static/career.js"></script>
+</body>
+</html>

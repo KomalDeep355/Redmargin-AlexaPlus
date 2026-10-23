@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: red-margin
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: LLM_PROVIDER
+        value: mock
+      - key: LLM_TIMEOUT_SECONDS
+        value: "90"
+      - key: MAX_SOURCE_FILES
+        value: "12"
+      - key: MAX_CHARS_PER_FILE
+        value: "6000"
+      - key: MAX_PASTED_POSTINGS_CHARS
+        value: "50000"
+      - key: MAX_POSTINGS
+        value: "50"
+      - key: MAX_REPO_URL_CHARS
+        value: "2048"
+      - key: MAX_REPO_TREE_PATHS
+        value: "10000"
+      - key: MAX_REPO_API_RESPONSE_BYTES
+        value: "20000000"
+      - key: MAX_REPO_FILES_TO_FETCH
+        value: "24"
+      - key: MAX_GITHUB_CONCURRENT_REQUESTS
+        value: "5"
+      - key: MAX_PROMPT_REPO_CHARS
+        value: "10000"
+      - key: GITHUB_TOKEN
+        sync: false

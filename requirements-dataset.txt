@@ -1,0 +1,5 @@
+# Optional dependencies for offline dataset training and evaluation.
+-r requirements.txt
+pandas>=2.2
+scikit-learn>=1.4
+joblib>=1.3

@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — Forward Deployed Engineer
+Work directly with customers to deploy LLM applications. Strong Python, SQL and REST APIs. Experience with Docker and cloud deployment (AWS or GCP). Build RAG pipelines and agentic workflows, write evals to measure quality. Excellent customer communication and stakeholder management. Integrations with Salesforce, Slack, Jira.

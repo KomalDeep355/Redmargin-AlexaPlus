@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — AI Solutions Engineer
+Python, FastAPI, CI/CD with GitHub Actions, automated testing with pytest. Prompt engineering, LLM evaluation, observability and monitoring of production AI systems. Customer-facing role.

@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — NLP Engineer
+Python, PyTorch, Hugging Face transformers, text classification, embeddings, evaluation and benchmarking of language models, LLM fine-tuning.

@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — Backend Engineer
+Build services with FastAPI or Django. PostgreSQL, Redis, authentication with JWT, automated testing, Docker, GitHub Actions.

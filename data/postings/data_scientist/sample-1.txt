@@ -1,0 +1,3 @@
+SAMPLE (synthetic, written for testing — replace with a real posting)
+ExampleCorp — Data Scientist
+Python, SQL, pandas, scikit-learn, machine learning, data visualization with Tableau or Power BI. Experiment design, model evaluation, communicating insights to stakeholders.
