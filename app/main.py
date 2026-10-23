@@ -206,9 +206,9 @@ async def career_agent_page():
     return FileResponse(career_file)
 
 
-@app.get("/")
-async def index():
-    index_file = config.STATIC_DIR / "index.html"
+@app.get("/", include_in_schema=False)
+async def root():
+    return RedirectResponse(url="/career", status_code=302)
 
     if not config.STATIC_DIR.is_dir() or not index_file.is_file():
         raise HTTPException(
